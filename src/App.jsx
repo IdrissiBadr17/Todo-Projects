@@ -30,6 +30,7 @@ function App() {
       taskId: `task-${crypto.randomUUID().substring(0, 6).replace(/-/g, "")}`,
       projectId: projectsState.selectedProjectId,
       content: taskData,
+      isDone: false,
     };
     setProjectsState((prevState) => ({
       ...prevState,
@@ -41,6 +42,15 @@ function App() {
     setProjectsState((prevState) => ({
       ...prevState,
       tasks: prevState.tasks.filter((task) => task.taskId !== taskId),
+    }));
+  }
+  
+  function handleDoneTask(taskId) {
+    setProjectsState((prevState) => ({
+      ...prevState,
+      tasks: prevState.tasks.map((task) =>
+        task.taskId === taskId ? { ...task, isDone: true } : task,
+      ),
     }));
   }
 
@@ -61,6 +71,7 @@ function App() {
         onDelete={handleDeleteProject}
         onAddTask={handleAddTask}
         onDeleteTask={handleDeleteTask}
+        onDoneTask={handleDoneTask}
         tasks={projectsState.tasks}
       />
     );
